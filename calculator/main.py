@@ -31,14 +31,14 @@ operations = {
 # Recursion with the calculator function
 def calculator():
     print(logo)
-    num1 = int(input("What's the first number?: "))
+    num1 = float(input("What's the first number?: "))
     for operation in operations:
         print(operation)
 
     continue_calculator = True
     while continue_calculator:
         operation_symbol = input("Pick an operation. ")
-        num2 = int(input("What's the next number?: "))
+        num2 = float(input("What's the next number?: "))
         calculation_function = operations[operation_symbol]
         answer = calculation_function(num1, num2)
         print(f"{num1} {operation_symbol} {num2} = {answer}")
