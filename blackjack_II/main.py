@@ -28,36 +28,68 @@ def compare(score1, score2):
     """
     Compares the user_score and computer_score
     """
-    
+    if score1 == score2:
+        print("\nThis is a draw!")
+        print(f"    Your cards: {user_cards}, score: {user_score}")
+        print(f"    Computer's cards: {computer_cards}, score: {computer_score}")
+    elif score1 == 0:
+        print("\nUser has Blackjack!")
+        print(f"    Your cards: {user_cards}, score: {user_score}")
+        print(f"    Computer's cards: {computer_cards}, score: {computer_score}")
+    elif score2 == 0:
+        print("\nComputer has Blackjack!")
+        print(f"    Your cards: {user_cards}, score: {user_score}")
+        print(f"    Computer's cards: {computer_cards}, score: {computer_score}")
+    elif score1 > 21:
+        print("\nYou have gone over, Computer wins!")
+        print(f"    Your cards: {user_cards}, score: {user_score}")
+        print(f"    Computer's cards: {computer_cards}, score: {computer_score}")
+    elif score2 > 21:
+        print("\nComputer has gone over, player wins!")
+        print(f"    Your cards: {user_cards}, score: {user_score}")
+        print(f"    Computer's cards: {computer_cards}, score: {computer_score}")
+    elif score1 > score2:
+        print("\nPlayer wins with higher card value!")
+        print(f"    Your cards: {user_cards}, score: {user_score}")
+        print(f"    Computer's cards: {computer_cards}, score: {computer_score}")
+    elif score1 < score2:
+        print("\nComputer wins with higher card value!")
+        print(f"    Your cards: {user_cards}, score: {user_score}")
+        print(f"    Computer's cards: {computer_cards}, score: {computer_score}")
 
+continue_game = "y"
 
-user_cards = []
-computer_cards = []
-is_game_over = False
+while continue_game == "y":
+    user_cards = []
+    computer_cards = []
+    is_game_over = False
 
-# Deal 2 cards to both computer and player
-for _ in range(2):
-    user_cards.append(deal_card())
-    computer_cards.append(deal_card())
+    # Deal 2 cards to both computer and player
+    for _ in range(2):
+        user_cards.append(deal_card())
+        computer_cards.append(deal_card())
 
-while not is_game_over:
-    user_score = calculate_score(user_cards)
-    computer_score = calculate_score(computer_cards)
+    while not is_game_over:
+        user_score = calculate_score(user_cards)
+        computer_score = calculate_score(computer_cards)
 
-    print(f"    Your cards: {user_cards}, current score: {user_score}")
-    print(f"    Computer's first card: {computer_cards[0]}")
+        print(f"    Your cards: {user_cards}, current score: {user_score}")
+        print(f"    Computer's first card: {computer_cards[0]}")
 
-    if user_score == 0 or computer_score == 0 or user_score > 21:
-        is_game_over = True
-    else:
-        user_should_deal = input("Type 'y' to get another card: ")
-        if user_should_deal == "y":
-            user_cards.append(deal_card())
-        else:
+        if user_score == 0 or computer_score == 0 or user_score > 21:
             is_game_over = True
+        else:
+            user_should_deal = input("Type 'y' to get another card: ")
+            if user_should_deal == "y":
+                user_cards.append(deal_card())
+            else:
+                is_game_over = True
 
-while computer_score < 17:
-    computer_cards.append(deal_card())
-    computer_score = calculate_score(computer_cards)
+    while computer_score < 17:
+        computer_cards.append(deal_card())
+        computer_score = calculate_score(computer_cards)
 
+    compare(user_score, computer_score)
 
+    continue_game = input("\nWould you like to play another game? Type 'y' for yes: ")
+    clear()
