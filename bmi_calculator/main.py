@@ -11,4 +11,3 @@ print(round(int_weight / (int_height ** 2)))
 
 bmi = int(weight) / float(height) ** 2
 print(round(bmi))
-
