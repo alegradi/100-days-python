@@ -1,3 +1,6 @@
+# Life in weeks
+# Calculate how many days, weeks and months are left until turning 90
+
 age = input("What is your current age? ")
 
 years_left = 90 - int(age)
