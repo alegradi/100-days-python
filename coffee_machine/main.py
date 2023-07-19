@@ -90,8 +90,8 @@ def transaction(drink_option, inserted_money):
         print("Not enough money has been inserted")
         return
     else:
-        change = inserted_money - MENU[drink_option]['cost']
-        # '{0:.2f}'.format(change) # doesn't work for some reason
+        change = round(inserted_money - MENU[drink_option]['cost'], 2)
+
         if change > 0:
             print(f"Your change is: ${change}")
     # Reduce the amount of resources by what has been ordered
@@ -102,7 +102,7 @@ def transaction(drink_option, inserted_money):
     # Add the money to the machine
     profit = profit + MENU[drink_option]['cost']
 
-    print("\nHere's your drink!\n")
+    print(f"\nHere's your {drink_option}! Enjoy!\n")
 
 
 resources = {
@@ -115,5 +115,3 @@ profit = 0
 
 while not MACHINE_OFF:
     main_loop()
-
-
