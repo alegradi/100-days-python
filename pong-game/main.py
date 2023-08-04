@@ -30,7 +30,7 @@ l_score = 0
 
 game_is_on = True
 while game_is_on:
-    time.sleep(0.08)
+    time.sleep(ball.move_speed)
     screen.update()
     ball.move()
 
