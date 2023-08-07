@@ -1,6 +1,7 @@
 from turtle import Turtle
 
 FONT = ("Courier", 12, "normal")
+GAME_OVER_FONT = ("Courier", 18, "normal")
 
 
 class ScreenOverlay(Turtle):
@@ -29,3 +30,8 @@ class ScreenOverlay(Turtle):
         self.penup()
         self.goto(-285, 250)
         self.write("Finish", align="left", font=FONT)
+
+    def game_over(self):
+        self.penup()
+        self.goto(0, 0)
+        self.write("Game Over!", move=False, align="center", font=GAME_OVER_FONT)

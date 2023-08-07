@@ -18,3 +18,6 @@ class Player(Turtle):
     def move_forward(self):
         self.forward(MOVE_DISTANCE)
         # print(f"Player position: {self.ycor()}, {self.xcor()}")  # Debug info
+
+    def reset_position(self):
+        self.goto(STARTING_POSITION)
