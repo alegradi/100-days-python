@@ -30,23 +30,15 @@ while game_is_on:
 
     # Detect collision with a car
     for car in car_manager.all_cars:
-        if car.distance(player) < 15:
-            # print("Turtle is being hit!")  # Debug info
+        if car.distance(player) < 20:
             game_is_on = False
-            # print(f"game_is_on: {game_is_on}")  # Debug info
 
     # Detect if the player reached the finish line
-    if player.ycor() > 265:
-        # print("Player reached finish line!")  # Debug info
+    if player.ycor() > 270:
         player.reset_position()
         car_manager.increase_car_speed()
         scoreboard.update_level()
 
-
-
-
 screen_overlay.game_over()
-
-
 
 screen.exitonclick()
