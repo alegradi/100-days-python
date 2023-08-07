@@ -34,10 +34,6 @@ while game_is_on:
             game_is_on = False
 
     # Detect if the player reached the finish line
-    # if player.ycor() > 270:
-    #     player.reset_position()
-    #     car_manager.increase_car_speed()
-    #     scoreboard.update_level()
     if player.is_at_finish_line():
         player.reset_position()
         car_manager.increase_car_speed()
