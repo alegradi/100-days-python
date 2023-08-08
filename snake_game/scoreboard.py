@@ -12,8 +12,7 @@ class ScoreBoard(Turtle):
         super().__init__()
         self.score = 0
         with open("highscore.txt", mode="r") as file:
-            stored_highescore = file.read()
-            self.highscore = int(stored_highescore)
+            self.highscore = int(file.read())
         # self.highscore = 0
         self.color("white")
         self.hideturtle()
