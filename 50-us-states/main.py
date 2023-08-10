@@ -49,18 +49,30 @@ def write_state_to_map(state_to_write):
 
 
 correct_guesses = []
+un_answered_states = []
 
 while len(correct_guesses) < 50:
 
-    answer_state = screen.textinput(f"Guess the State! {len(correct_guesses)}/50", "What's another State?").title()
+    answer_state = screen.textinput(f"Guess the State! {len(correct_guesses)}/50",
+                                    "What's another State?").title()
+
+    # Use 'exit' to exit the game
+    if answer_state == "Exit":
+        # Save the list of unentered states ot it`s own csv
+
+        list_of_states = state_data.state.to_list()
+        for state in list_of_states:
+            if state not in correct_guesses:
+                un_answered_states.append(state)
+
+        un_answered_data_dict = {
+            "State": un_answered_states
+        }
+
+        missing_states = pandas.DataFrame(un_answered_data_dict)
+        missing_states.to_csv("missing_states.csv")
+
+        break
 
     if check_state(answer_state) and answer_state not in correct_guesses:
         write_state_to_map(answer_state)
-
-
-
-
-
-
-screen.exitonclick()
-
