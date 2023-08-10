@@ -58,7 +58,7 @@ print(monday.condition)
 print((monday.temp * 9/5) + 32)
 
 
-# Create datafram from scratch
+# Create dataframe from scratch
 data_dict = {
     "students": ["Amy", "James", "Ferko"],
     "scores": [76, 56, 12]

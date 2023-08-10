@@ -11,5 +11,5 @@ with open("input/names/invited_names.txt") as names_file:
 
         file_data = file_data.replace('[name]', name.strip())
 
-        with open(f"output/ready_to_send/{name}.txt", mode="w") as file:
+        with open(f"output/ready_to_send/letter_for_{name}.txt", mode="w") as file:
             file.write(file_data)
