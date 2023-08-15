@@ -59,7 +59,7 @@ while len(correct_guesses) < 50:
     # Use 'exit' to exit the game
     if answer_state == "Exit":
 
-        # Save the list of unentered states ot it`s own csv
+        # Save the list of unentered states to it`s own csv
         missing_states = [missing_state for missing_state in all_states if missing_state not in correct_guesses]
 
         new_data = pandas.DataFrame(missing_states)
