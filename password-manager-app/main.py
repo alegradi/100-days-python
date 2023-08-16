@@ -1,11 +1,28 @@
 from tkinter import *
+from tkinter import messagebox
+from random import randint, choice, shuffle
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 
 def generate_password():
-    pass
 
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+    password_list = []
+
+    password_list = [choice(letters) for char in range(randint(8, 10))]
+    password_list += [choice(symbols) for char in range(randint(2, 4))]
+    password_list += [choice(numbers) for char in range(randint(2, 4))]
+
+    shuffle(password_list)
+
+    password = "".join(password_list)
+
+    password_entry.delete(0, END)
+    password_entry.insert(index=0, string=password)
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
@@ -19,18 +36,27 @@ def save_entries():
     username_entry_data = username_entry.get()
     password_entry_data = password_entry.get()
 
-    # Format data
-    file_password_entry = f"{website_entry_data} | {username_entry_data} | {password_entry_data}\n"
+    if len(website_entry_data) == 0 or len(password_entry_data) == 0:
+        messagebox.showinfo(title="Oops", message="Please don't leave any fields empty!")
+    else:
+        # Format data
+        file_password_entry = f"{website_entry_data} | {username_entry_data} | {password_entry_data}\n"
 
-    # Save it to a file
-    with open("data.txt", "a") as file:  # Open in append mode
-        file.write(file_password_entry)
+        # Show pop-up about the save
+        is_ok = messagebox.askokcancel(title=website_entry_data, message=f"These are the details entered: "
+                                                                 f"\nEmail: {username_entry_data} "
+                                                                 f"\nPassword: {password_entry_data} "
+                                                                         f"\nIs it ok to save?")
 
-    # Clear the entry fields
-    website_entry.delete(0, END)
-    username_entry.delete(0, END)
-    username_entry.insert(index=0, string="ferko_ferdinand@gmail.com")
-    password_entry.delete(0, END)
+        if is_ok:
+
+            # Save it to a file
+            with open("data.txt", "a") as file:  # Open in append mode
+                file.write(file_password_entry)
+
+            # Clear the entry fields
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -70,7 +96,7 @@ password_entry = Entry(width=23)
 password_entry.grid(column=1, row=3)
 
 # Generate password button
-gen_pass_button = Button(text="Generate Password", highlightthickness=0)
+gen_pass_button = Button(text="Generate Password", highlightthickness=0, command=generate_password)
 gen_pass_button.grid(column=2, row=3)
 
 # Add button
