@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint, choice, shuffle
 import pyperclip
+import json
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -38,27 +39,57 @@ def save_entries():
     username_entry_data = username_entry.get()
     password_entry_data = password_entry.get()
 
+    new_data = {website_entry_data: {
+        "email": username_entry_data,
+        "password": password_entry_data
+    }}
+
     if len(website_entry_data) == 0 or len(password_entry_data) == 0:
         messagebox.showinfo(title="Oops", message="Please don't leave any fields empty!")
     else:
-        # Format data
-        file_password_entry = f"{website_entry_data} | {username_entry_data} | {password_entry_data}\n"
+        # With error handling, creates if there is no file
+        try:
+            with open("data.json", "r") as data_file:
+                # Reading old data
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open("data.json", "w") as data_file:
+                json.dump(new_data, data_file, indent=4)
+        else:
+            # Updating old data with new one
+            data.update(new_data)
 
-        # Show pop-up about the save
-        is_ok = messagebox.askokcancel(title=website_entry_data, message=f"These are the details entered: "
-                                                                 f"\nEmail: {username_entry_data} "
-                                                                 f"\nPassword: {password_entry_data} "
-                                                                         f"\nIs it ok to save?")
-
-        if is_ok:
-
-            # Save it to a file
-            with open("data.txt", "a") as file:  # Open in append mode
-                file.write(file_password_entry)
-
+            with open("data.json", "w") as data_file:
+                # Saving updated data
+                json.dump(data, data_file, indent=4)
+        finally:
             # Clear the entry fields
             website_entry.delete(0, END)
             password_entry.delete(0, END)
+
+
+def find_password():
+    password_lookup = website_entry.get()
+
+    try:
+        # Check if password_lookup matches an item in data.json
+        with open("data.json", "r") as data_file:
+            json_data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showwarning(title="Warning", message="No Data File Found")
+    else:
+        # List of dictionary lookup
+        found_password_entry = {key: value for (key, value) in json_data.items() if key == password_lookup}
+        # print(f"Found entry: {found_password_entry}")  # Debug info
+
+        # Show pop-up if entry found
+        if len(found_password_entry) > 0:
+            messagebox.showinfo(title=password_lookup, message=f"Email/Username: "
+                                                               f"{found_password_entry[password_lookup]['email']} "
+                                                               f"\nPassword: "
+                                                               f"{found_password_entry[password_lookup]['password']}")
+        else:
+            messagebox.showinfo(title="Missing Record", message="No details for the website exists")
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -84,8 +115,8 @@ password_label = Label(text="Password:")
 password_label.grid(column=0, row=3)
 
 # Website entry
-website_entry = Entry(width=42)
-website_entry.grid(column=1, row=1, columnspan=2)
+website_entry = Entry(width=23)
+website_entry.grid(column=1, row=1)
 website_entry.focus()
 
 # Email/Username entry
@@ -104,6 +135,10 @@ gen_pass_button.grid(column=2, row=3)
 # Add button
 add_button = Button(text="Add", width=41, highlightthickness=0, command=save_entries)
 add_button.grid(column=1, row=4, columnspan=2)
+
+# Search button
+search_button = Button(text="Search", highlightthickness=0, width=16, command=find_password)
+search_button.grid(column=2, row=1)
 
 
 window.mainloop()
