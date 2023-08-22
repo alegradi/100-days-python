@@ -14,16 +14,13 @@ try:
     # Read data from csv
     word_data = pandas.read_csv("data/words_to_learn.csv")
 except FileNotFoundError:
-    word_data = pandas.read_csv("data/french_words_testing.csv")
+    word_data = pandas.read_csv("data/french_words.csv")
 finally:
     word_dictionary = pandas.DataFrame.to_dict(word_data, orient="records")
 
-# print(word_dictionary)
-# print(word_dictionary[4]['French'])
-
 
 # Random word selection -----------------------------------------------------------------------------------------------
-def gen_random_word():
+def next_word():
     global random_word_pair, flip_timer
     window.after_cancel(flip_timer)
     if len(word_dictionary) > 0:
@@ -53,10 +50,9 @@ def remove_known_word_pair():
         df.to_csv("data/words_to_learn.csv", index=False)
 
         # Validation
-        print(pandas.read_csv("data/words_to_learn.csv"))
+        # print(pandas.read_csv("data/words_to_learn.csv"))
 
-    else:
-        print("no more words to remove")
+        next_word()
 
 
 # GUI -----------------------------------------------------------------------------------------------------------------
@@ -82,14 +78,14 @@ flash_card_canvas.config(background=BACKGROUND_COLOR, highlightthickness=0)
 flash_card_canvas.grid(column=0, row=0, columnspan=2)
 
 # X mark button
-xmark_button = Button(image=xmark_image, highlightthickness=0, command=gen_random_word)
+xmark_button = Button(image=xmark_image, highlightthickness=0, command=next_word)
 xmark_button.grid(column=0, row=1)
 
 # Check mark button
 checkmark_button = Button(image=checkmark_image, highlightthickness=0, command=remove_known_word_pair)
 checkmark_button.grid(column=1, row=1)
 
-gen_random_word()
+next_word()
 
 
 
