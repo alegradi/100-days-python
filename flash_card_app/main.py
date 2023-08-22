@@ -10,8 +10,8 @@ random_word_pair = {}
 words_to_learn = {}
 
 
+# Read data from csv
 try:
-    # Read data from csv
     word_data = pandas.read_csv("data/words_to_learn.csv")
 except FileNotFoundError:
     word_data = pandas.read_csv("data/french_words.csv")
