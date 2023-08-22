@@ -7,10 +7,17 @@ import random
 BACKGROUND_COLOR = "#B1DDC6"
 
 random_word_pair = {}
+words_to_learn = {}
 
-# Read data from csv
-word_data = pandas.read_csv("data/french_words_testing.csv")
-word_dictionary = pandas.DataFrame.to_dict(word_data, orient="records")
+
+try:
+    # Read data from csv
+    word_data = pandas.read_csv("data/words_to_learn.csv")
+except FileNotFoundError:
+    word_data = pandas.read_csv("data/french_words_testing.csv")
+finally:
+    word_dictionary = pandas.DataFrame.to_dict(word_data, orient="records")
+
 # print(word_dictionary)
 # print(word_dictionary[4]['French'])
 
@@ -38,18 +45,15 @@ def flip_card():
 
 # Remove known word pairs from list -----------------------------------------------------------------------------------
 def remove_known_word_pair():
-    global random_word_pair
+    global random_word_pair, word_dictionary
     if len(word_dictionary) > 0:
         del word_dictionary[word_dictionary.index(random_word_pair)]
 
-        print(random_word_pair)
-
-        # Works but incorrect
-        df = pandas.DataFrame({'French': [random_word_pair["French"]], 'English': [random_word_pair['English']]})
-        df.to_csv('gen.csv', index=False)
+        df = pandas.DataFrame.from_dict(word_dictionary)
+        df.to_csv("data/words_to_learn.csv", index=False)
 
         # Validation
-        print(pandas.read_csv("gen.csv"))
+        print(pandas.read_csv("data/words_to_learn.csv"))
 
     else:
         print("no more words to remove")
