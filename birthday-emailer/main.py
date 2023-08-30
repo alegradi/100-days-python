@@ -39,7 +39,7 @@ def email_birthday_message():
         file_data = file_data.replace("[NAME]", record["name"])
 
         email_msg = f"Subject:Happy Birthday!\n\n{file_data}"
-        print(email_msg)
+        # print(email_msg)  # Debug info
 
         with smtplib.SMTP("smtp.gmail.com") as connection:
             connection.starttls()
@@ -53,7 +53,7 @@ def email_birthday_message():
 birthday_today()
 if len(birthdays_today) != 0:
 
-    # print(birthdays_today)
+    # print(birthdays_today)  # Debug info
     email_birthday_message()
 
 
